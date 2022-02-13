@@ -1,0 +1,23 @@
+{
+  "name": "wordle-solver",
+  "version": "1.0.0",
+  "description": "Solving wordle with ease",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BaptisteMartinet/wordle-solver.git"
+  },
+  "keywords": [
+    "wordle"
+  ],
+  "author": "Baptiste Martinet",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BaptisteMartinet/wordle-solver/issues"
+  },
+  "homepage": "https://github.com/BaptisteMartinet/wordle-solver#readme"
+}
