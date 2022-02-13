@@ -4,7 +4,7 @@ const prompt = (query) => new Promise((resolve) => rl.question(query, resolve));
 
 const words = require('./words');
 
-const denieds = '';
+let denieds = ''; // Memory of all denied letters
 
 (async () => {
   while (true) {
@@ -12,43 +12,41 @@ const denieds = '';
     const misplacedLetters = await prompt('Misplaced letters:\n');
     const deniedLetters = await prompt('Denied letters:\n');
 
-    denieds.concat(deniedLetters);
-  
+    denieds += deniedLetters;
+
+    let run = true;
     const posibilities = [];
-    let i;
     for (const word of words) {
+      run = true;
       // check for valid letters
-      for (i = 0; i < validLetters.length; ++i) {
-        const letter = validLetters[i];
-        if (letter === '_')
+      for (let i = 0; i < validLetters.length; ++i) {
+        const validLetter = validLetters[i].toUpperCase();
+        if (validLetter === '_')
           continue;
-        else if (letter === word[i].toLowerCase())
-          continue;
-        else
+        if (validLetter !== word[i]) {
+          run = false;
           break;
+        }
       }
-      if (i !== validLetters.length)
+      if (!run)
         continue;
       //check for misplaced letters
-      let run = true;
-      let j = 0;
-      for (const misplacedLetter of misplacedLetters) {
+      for (let j = 0; j < misplacedLetters.length; ++j) {
+        const misplacedLetter = misplacedLetters[j].toUpperCase();
         if (misplacedLetter === '_')
           continue;
-        if (!word.includes(misplacedLetter.toUpperCase())) {
+        if (!word.includes(misplacedLetter)) {
           run = false;
           break;
         }
-        if (word[j].toLowerCase() === misplacedLetter) {
+        if (word[j] === misplacedLetter) {
           run = false;
           break;
         }
-        j++;
       }
       if (!run)
         continue;
       // check for denied letters
-      run = true;
       for (const deniedLetter of denieds) {
         if (word.includes(deniedLetter.toUpperCase())) {
           run = false;
