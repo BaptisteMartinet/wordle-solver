@@ -19,7 +19,7 @@ How does it works:
 `);
 
   const language = await prompt('Choose language (fr|en):\n');
-  console.log(`Running with language: ${language}\n`);
+  console.log(`Running with language: ${language === 'fr' ? 'French' : 'English'}\n`);
   const words = (language === 'fr' ? wordsFrench : wordsEnglish);
 
   while (true) {
