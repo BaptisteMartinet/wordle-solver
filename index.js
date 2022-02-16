@@ -2,13 +2,13 @@ const readline = require('readline');
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
 const prompt = (query) => new Promise((resolve) => rl.question(query, resolve));
 
-const words = require('./words');
+const wordsFrench = require('./words_fr');
+const wordsEnglish = require('./words_en');
 
 let denieds = ''; // Memory of all denied letters
 
 (async () => {
-  console.info(`Made for the french version of Wordle: https://wordle.louan.me/
-
+  console.info(`
 How does it works:
   The program will ask you for valid, misplaced and denied letters.
   It will remember all the denied letters you've added word after word.
@@ -17,6 +17,11 @@ How does it works:
   Underscores will be ignored.
   The program will output you a list of posible words. Enjoy!
 `);
+
+  const language = await prompt('Choose language (fr|en):\n');
+  console.log(`Running with language: ${language}\n`);
+  const words = (language === 'fr' ? wordsFrench : wordsEnglish);
+
   while (true) {
     const validLetters = await prompt('Valid letters:\n');
     const misplacedLetters = await prompt('Misplaced letters:\n');
@@ -30,7 +35,7 @@ How does it works:
       run = true;
       // check for valid letters
       for (let i = 0; i < validLetters.length; ++i) {
-        const validLetter = validLetters[i].toUpperCase();
+        const validLetter = validLetters[i];
         if (validLetter === '_')
           continue;
         if (validLetter !== word[i]) {
@@ -42,7 +47,7 @@ How does it works:
         continue;
       //check for misplaced letters
       for (let j = 0; j < misplacedLetters.length; ++j) {
-        const misplacedLetter = misplacedLetters[j].toUpperCase();
+        const misplacedLetter = misplacedLetters[j];
         if (misplacedLetter === '_')
           continue;
         if (!word.includes(misplacedLetter)) {
@@ -58,7 +63,7 @@ How does it works:
         continue;
       // check for denied letters
       for (const deniedLetter of denieds) {
-        if (word.includes(deniedLetter.toUpperCase())) {
+        if (word.includes(deniedLetter)) {
           run = false;
           break;
         }
